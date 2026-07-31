@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Perfect Sunday in Sydney｜Spit Bridge → Manly</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--ink:#18323b;--muted:#66787e;--sea:#0c7282;--pale:#edf6f5;--sand:#f4ead7;--card:#fff;--line:#d9e7e7}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#f5f8f7;line-height:1.65}
+.hero{padding:54px 20px 36px;background:linear-gradient(135deg,#0b5363,#1590a0);color:#fff}
+.wrap{max-width:920px;margin:auto;padding:0 16px 50px}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;opacity:.85}
+h1{font-size:clamp(2.1rem,8vw,4.5rem);line-height:1.02;margin:.35rem 0}
+h2{margin-top:0;font-size:1.45rem} h3{margin-bottom:.35rem}
+.lead{font-size:1.08rem;max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+.stat{background:rgba(255,255,255,.13);padding:12px;border-radius:14px} .stat b{display:block;font-size:1.15rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 5px 18px rgba(20,60,68,.05)}
+.notice{background:var(--sand);border-color:#ead7b5}
+.weather{display:grid;grid-template-columns:repeat(4,1fr);gap:10px} .weather div{background:var(--pale);padding:12px;border-radius:12px}
+.btns{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+a.btn{display:inline-block;text-decoration:none;background:var(--sea);color:white;padding:10px 14px;border-radius:999px;font-weight:650}
+a.btn.secondary{background:#e7f1f0;color:#145d68}
+#map{height:470px;border-radius:15px;overflow:hidden}
+.segment{border-left:4px solid #55a9ad;padding:2px 0 8px 16px;margin:22px 0}
+.meta{color:var(--sea);font-weight:700;font-size:.92rem} .culture{background:#f5f0e6;padding:12px 14px;border-radius:12px;margin-top:10px}
+.timeline{display:grid;grid-template-columns:75px 1fr;gap:8px 15px} .time{font-weight:800;color:var(--sea)} .event{padding-bottom:12px;border-bottom:1px dashed #d8e2e2}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.option{border-top:5px solid var(--sea)} ul{padding-left:21px} small,.muted{color:var(--muted)}
+.topnav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 12px;overflow-x:auto;white-space:nowrap}
+.topnav a{color:#155f6a;text-decoration:none;margin-right:15px;font-weight:650;font-size:.9rem}
+details{border-top:1px solid var(--line);padding:10px 0} summary{font-weight:700;cursor:pointer}
+@media(max-width:650px){.stats,.weather{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}#map{height:420px}.hero{padding-top:40px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+<a href="#meet">Getting There</a><a href="#route">Route Map</a><a href="#segments">The Walk</a><a href="#beer">4 Pines</a><a href="#food">Dining</a><a href="#safety">Good to Know</a>
+</nav>
+
+<header class="hero">
+<div class="wrap">
+<div class="eyebrow">A Curated Sydney Harbour Day</div>
+<h1>Spit Bridge<br>→ Manly</h1>
+<p class="lead">2026年8月2日 · 星期日。沿着 Sydney Harbour 最经典的海岸步道，从 The Spit 穿过桉树林、隐秘海湾与砂岩岬角，最后抵达 Manly，以一杯本地精酿和一顿临水晚餐结束这一天。</p>
+<div class="stats">
+<div class="stat"><span>Meeting Point</span><b>09:50</b><small>The Spit</small></div>
+<div class="stat"><span>Distance</span><b>≈10 km</b><small>One way</small></div>
+<div class="stat"><span>Experience</span><b>约5 h</b><small>含停留与拍照</small></div>
+<div class="stat"><span>Arrival</span><b>约15:00</b><small>Manly</small></div>
+</div>
+</div>
+</header>
+
+<main class="wrap">
+
+<section class="card" id="weather">
+<h2>🌤 Weather for the Day</h2>
+<p><strong>早晨偏冷，午后晴朗舒适。</strong> 预计清晨约8°C，10:00约13°C，12:00约17°C，14:00约20°C，傍晚约16–17°C。建议分层穿衣，薄外套中午可收进包里。</p>
+<div class="weather">
+<div><b>09:00</b><br>约11°C<br>局部晴</div>
+<div><b>11:00</b><br>约15°C<br>多晴</div>
+<div><b>14:00</b><br>约20°C<br>多晴</div>
+<div><b>17:00</b><br>约17°C<br>多晴</div>
+</div>
+<p class="muted">天气会变化；出门前再看一次 BOM/手机天气。海边风感会比市区更冷。</p>
+</section>
+
+<section class="card" id="meet">
+<h2>🚍 Getting to the Trailhead</h2>
+<p><strong>09:50 在 The Spit Bridge 步道起点集合，10:00 开始徒步。</strong> 三位同行者可分别从 Macquarie Park、Chippendale 和 World Square 附近直接前往。下方链接会按实时公共交通重新规划路线；建议将抵达时间设为 <b>09:40–09:45</b>，留出一点从车站走到步道入口的时间。</p>
+<div class="btns">
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Macquarie%20Park%20NSW&destination=Spit%20Bridge%2C%20Mosman%20NSW&travelmode=transit">Macquarie Park 出发 ↗</a>
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Chippendale%20NSW&destination=Spit%20Bridge%2C%20Mosman%20NSW&travelmode=transit">Chippendale 出发 ↗</a>
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=World%20Square%2C%20Sydney%20NSW&destination=Spit%20Bridge%2C%20Mosman%20NSW&travelmode=transit">World Square 附近出发 ↗</a>
+</div>
+<div class="notice card" style="margin-bottom:0">
+<b>Meeting point：</b>请定位到 Spit Bridge 的 Manly Scenic Walkway 起点。抵达后寻找 <strong>Manly Scenic Walkway / Manly</strong> 指示牌。<br>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Spit%20Bridge%20Manly%20Scenic%20Walkway%20start%20NSW">打开集合点 ↗</a>
+</div>
+</section>
+
+<section class="card" id="route">
+<h2>🗺 Route Map</h2>
+<p>地图可缩放，并可点击标记查看每一站。蓝线用于展示路线走向；进入林地后，请以 NPWS / Northern Beaches 的实体路牌及 “Manly” 方向标识为准。</p>
+<div id="map"></div>
+<div class="btns">
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Spit%20Bridge%2C%20Mosman%20NSW&destination=Manly%20Wharf%2C%20Manly%20NSW&travelmode=walking&waypoints=Clontarf%20Reserve%20NSW%7CGrotto%20Point%20Aboriginal%20Engravings%20NSW%7CArabanoo%20Lookout%20NSW%7CReef%20Beach%20NSW%7CForty%20Baskets%20Beach%20NSW">Google Maps 打开完整步行路线 ↗</a>
+<a class="btn secondary" href="#segments">Explore the Walk ↓</a>
+</div>
+</section>
+
+<section class="card" id="timeline">
+<h2>⏰ Suggested Day Plan</h2>
+<div class="timeline">
+<div class="time">09:50</div><div class="event">The Spit 集合、上厕所、确认水和电量</div>
+<div class="time">10:00</div><div class="event">正式出发</div>
+<div class="time">10:35</div><div class="event">Clontarf Reserve 小停 10 分钟</div>
+<div class="time">11:20</div><div class="event">Castle Rock / Grotto Point 一带，岩刻与观景</div>
+<div class="time">12:10</div><div class="event">Arabanoo Lookout，拍照休息</div>
+<div class="time">12:45</div><div class="event">Reef Beach，吃零食 15–20 分钟</div>
+<div class="time">13:45</div><div class="event">Forty Baskets Beach，上厕所、补水</div>
+<div class="time">15:00</div><div class="event">到达 Manly Wharf</div>
+<div class="time">15:10</div><div class="event">4 Pines BrewPub，约45–60分钟</div>
+<div class="time">16:15</div><div class="event">选择 Hugos 或前往 Chatswood 彩云南</div>
+</div>
+</section>
+
+<section class="card" id="segments">
+<h2>🥾 The Walk: Landscapes, Stories & Stops</h2>
+
+<div class="segment">
+<div class="meta">① 10:00｜Spit Bridge → Clontarf Reserve｜约1.7 km · 35 min</div>
+<h3>Follow the Trail</h3>
+<p>从桥边步道入口跟随 <b>Manly Scenic Walkway / Manly</b> 标识。大方向上保持海水在右侧，经过 Fisher Bay、Sandy Bay，继续向 Clontarf Reserve。不要走上主干道。</p>
+<div class="culture"><b>What to notice：</b>The Spit 位于 Middle Harbour 较狭窄的水道上。这里最值得欣赏的是城市基础设施与自然海岸并置的画面：开启式桥梁、停泊船只、宁静内湾与砂岩坡地同时进入视野。第一段也是整条路线最柔和的开场，适合放慢脚步，感受城市逐渐退到身后。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Spit%20Bridge%20NSW&destination=Clontarf%20Reserve%20NSW&travelmode=walking">本段 Google 导航 ↗</a>
+</div>
+
+<div class="segment">
+<div class="meta">② 10:45｜Clontarf Reserve → Castle Rock Beach｜约1.6 km · 35–40 min</div>
+<h3>Follow the Trail</h3>
+<p>沿海滩与住宅边缘继续跟 Manly 标识。经过 Clontarf 后步道重新进入林地，会出现砂岩台阶和短坡；岔口优先选 <b>Castle Rock Beach / Manly</b>。</p>
+<div class="culture"><b>Why it is special：</b>Clontarf 是一个受保护的内湾，水面通常比外海平静。草地、浅滩、帆船和桉树林共同构成典型的 Sydney Harbour lifestyle。这里适合短暂停留，欣赏海水颜色由浅到深的变化，也可观察当地人野餐、游泳和划船的周末日常。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Clontarf%20Reserve%20NSW&destination=Castle%20Rock%20Beach%20NSW&travelmode=walking">本段 Google 导航 ↗</a>
+</div>
+
+<div class="segment">
+<div class="meta">③ 11:25｜Castle Rock → Grotto Point Aboriginal Engravings｜约1.3 km · 35 min</div>
+<h3>Follow the Trail</h3>
+<p>沿 Dobroyd Head 方向进入更完整的 bush track。看到 <b>Grotto Point Aboriginal Engravings</b> 支线牌时可以短暂离开主线参观，参观后原路回到 Manly 主线。</p>
+<div class="culture"><b>Culture & landscape：</b>Grotto Point 的砂岩表面保存着 Aboriginal engravings，可辨认出鲸、袋鼠与回旋镖等形象。它们体现了原住民与海港、动物和 Country 之间的长期联系。参观之外，也值得留意这里裸露的蜂蜜色砂岩、低矮灌木与开阔水景——这是 Sydney Harbour National Park 最有代表性的自然组合之一。请只在指定平台观看，不踩、不摸、不描线。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Grotto%20Point%20Aboriginal%20Engraving%20Site%20NSW">打开岩刻点 ↗</a>
+</div>
+
+<div class="segment">
+<div class="meta">④ 12:00｜Grotto Point → Arabanoo Lookout → Reef Beach｜约2 km · 50–60 min</div>
+<h3>Follow the Trail</h3>
+<p>返回主线后跟 <b>Dobroyd Head / Manly</b>。Arabanoo Lookout 是高处观景点；之后步道下降到 Reef Beach。石阶可能潮湿，慢走，不要边下台阶边拍照。</p>
+<div class="culture"><b>Viewpoint & story：</b>Arabanoo Lookout 是整条步道最值得停下来的观景点之一。视野越过 North Harbour，可看到层叠岬角、停泊帆船和被树林包围的海湾。观景台以 Arabanoo 命名——他是殖民早期被强行带走的一位 Aboriginal man，后来在1789年的天花流行中去世。这个名字提醒游客，眼前的风景不仅美丽，也承载着复杂的历史。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Grotto%20Point%20Aboriginal%20Engraving%20Site%20NSW&destination=Reef%20Beach%20NSW&travelmode=walking&waypoints=Arabanoo%20Lookout%20NSW">本段 Google 导航 ↗</a>
+</div>
+
+<div class="segment">
+<div class="meta">⑤ 13:05｜Reef Beach → Forty Baskets Beach｜约2 km · 45–55 min</div>
+<h3>Follow the Trail</h3>
+<p>离开 Reef Beach 后继续沿 North Harbour 海岸跟 Manly 指示。树林与开阔海湾交替出现；到 Forty Baskets 后可上厕所、坐下补给。</p>
+<div class="culture"><b>Reef Beach：</b>这是一处藏在桉树林下的小海湾，水面安静，常能看到帆船和游艇停泊。这里最适合坐下来观察光线落在水面上的变化，也能感受到内港与外海截然不同的气质：没有 Manly Beach 的浪声，更多是平静水面、鸟鸣和林间阴影。</div>
+<div class="culture"><b>Forty Baskets：</b>这里是一处开阔、友好的社区海滩，前方常有小船停泊，后方则是草地和住宅区。它标志着路线从国家公园式的林地景观，逐渐过渡到更生活化的 Manly 海滨。适合在这里最后一次长休息，看看海湾，也感受当地人的日常。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Reef%20Beach%20NSW&destination=Forty%20Baskets%20Beach%20NSW&travelmode=walking">本段 Google 导航 ↗</a>
+</div>
+
+<div class="segment">
+<div class="meta">⑥ 14:00｜Forty Baskets → Fairlight → Manly Wharf｜约2.3 km · 55–65 min</div>
+<h3>Follow the Trail</h3>
+<p>沿水边共享步道经过 North Harbour Reserve 和 Fairlight，始终跟 <b>Manly Wharf</b>。越接近终点，步道越城市化、行人和跑步者也更多。</p>
+<div class="culture"><b>Arrival into Manly：</b>从 Forty Baskets 开始，景观由较野生的海港林地逐渐过渡为 Fairlight 的滨海住宅区与公共步道。途中可欣赏 North Harbour 的帆船、岩石泳池和海边花园。Manly Cove 的 Aboriginal 名称包括 Kai'ymay/Kayeemy；后来，渡轮与 The Corso 让这里成为悉尼最著名的海滨度假地之一。抵达码头时，整条路线会以更热闹、明亮的海滨氛围结束。</div>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Forty%20Baskets%20Beach%20NSW&destination=Manly%20Wharf%20NSW&travelmode=walking">本段 Google 导航 ↗</a>
+</div>
+</section>
+
+<section class="card" id="beer">
+<h2>🍺 15:10｜A Local Craft Beer Stop: 4 Pines BrewPub</h2>
+<p>4 Pines BrewPub 位于 Manly Wharf 对面，是这个澳洲精酿品牌最早起步的地方。空间保留了轻松、热闹的本地酒吧氛围，很适合作为徒步后的第一站：从林地和海湾走回城市生活，在码头附近坐下来，感受 Manly 周日下午的节奏。</p>
+<ul>
+<li><b>Tasting paddle：</b>适合第一次来，能一次尝试几种不同风格。</li>
+<li><b>Japanese Lager：</b>清爽易饮，徒步后很合适；<b>Pale Ale</b> 则更有经典精酿的柑橘与麦芽香气。</li>
+<li>不喝酒也可以点无酒精饮料，单纯享受码头酒吧的气氛。</li>
+</ul>
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Manly%20Wharf%2C%20Manly%20NSW&destination=4%20Pines%20BrewPub%20Manly%2C%2043-45%20East%20Esplanade%2C%20Manly%20NSW&travelmode=walking">从 Manly Wharf 步行过去 ↗</a>
+</section>
+
+<section class="grid2" id="food">
+<div class="card option">
+<h2>Waterfront Dining｜Hugos Manly</h2>
+<p><strong>最适合希望把海港氛围延续到晚餐的人。</strong></p>
+<p>Hugos 坐落在 Manly Wharf 水边，是 Manly 最具代表性的临港餐厅之一。这里的吸引力不只在食物，而在整个用餐场景：渡轮缓缓进出、夕阳落在海面上、码头灯光逐渐亮起。菜单以 wood-fired pizza、意面和海鲜为主，整体风格轻松但有仪式感。建议提前订桌，并备注 outdoor/waterfront preference。</p>
+<div class="btns">
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=4%20Pines%20BrewPub%20Manly%2C%2043-45%20East%20Esplanade%2C%20Manly%20NSW&destination=Hugos%20Manly%2C%20Manly%20Wharf%2C%20Manly%20NSW&travelmode=walking">步行导航 ↗</a>
+<a class="btn secondary" target="_blank" href="https://hugosmanly.com.au/">官网/订位 ↗</a>
+</div>
+<p><b>回家：</b>吃完坐 F1 ferry 到 Circular Quay；Macquarie Park 的朋友可再换 Metro，另外两位回市区很方便。</p>
+<a class="btn secondary" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Manly%20Wharf%2C%20Manly%20NSW&destination=Circular%20Quay%2C%20Sydney%20NSW&travelmode=transit">查看实时 Ferry 路线 ↗</a>
+</div>
+
+<div class="card option">
+<h2>Comforting Chinese Dinner｜彩云南 Chatswood</h2>
+<p><strong>适合徒步后更想吃一顿热气腾腾中餐的人。</strong></p>
+<p>彩云南主打云南风味，通常可期待米线、菌菇、汽锅类菜肴和带有酸辣层次的家常菜。与 Manly 的海港餐饮相比，这个选择更温暖、更满足，也更适合三个人围桌分享。16:00左右结束 4 Pines 后，可直接从 Manly 前往 Chatswood，预计17:00–17:30抵达。</p>
+<a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=4%20Pines%20BrewPub%20Manly%2C%2043-45%20East%20Esplanade%2C%20Manly%20NSW&destination=Colourful%20Yunnan%20Chatswood%20NSW&travelmode=transit">4 Pines → 彩云南实时交通 ↗</a>
+<p class="muted">这个方案对 Macquarie Park 的朋友回家最方便，但 Chippendale 和 World Square 的两位吃完还需回市区。</p>
+</div>
+</section>
+
+<section class="card notice">
+<h2>Two Ways to End the Day</h2>
+<p><strong>Hugos</strong> 会让整天保持在同一种海港度假氛围里，并以 Ferry 返回 Circular Quay 作为漂亮收尾；<strong>彩云南</strong> 则适合更看重一顿热闹、满足的中餐。两种选择都很好，只是代表两种不同的结尾。</p>
+</section>
+
+<section class="card" id="safety">
+<h2>⚠️ Good to Know</h2>
+<ul>
+<li><b>水：</b>每人至少1 L；带水果、能量棒或小三明治。</li>
+<li><b>穿着：</b>有抓地力的运动鞋；分层穿衣；帽子、墨镜、防晒。</li>
+<li><b>导航：</b>Google Maps 只辅助定位。林中以 “Manly Scenic Walkway / Manly” 实体标牌为准。</li>
+<li><b>岩刻：</b>只观看和拍照，不触摸、不踩踏、不描画。</li>
+<li><b>安全：</b>三个人保持在视线内；岔路口等齐再走；石阶潮湿时收起手机。</li>
+<li><b>饮酒：</b>徒步后先补水再喝；饮酒者不驾车。</li>
+<li><b>时间：</b>如果 13:30 还没到 Reef Beach，减少停留时间；目标15:30前离开林中主要路段。</li>
+<li><b>实时状况：</b>早上查看 NPWS alerts、Transport for NSW Trip Planner 和天气。</li>
+</ul>
+<div class="btns">
+<a class="btn secondary" target="_blank" href="https://www.nationalparks.nsw.gov.au/things-to-do/walking-tracks/manly-scenic-walkway">NPWS 路线与警报 ↗</a>
+<a class="btn secondary" target="_blank" href="https://transportnsw.info/trip">实时公共交通 ↗</a>
+</div>
+</section>
+
+<section class="card">
+<h2>📚 About This Guide</h2>
+<p class="muted">路线距离、难度与岩刻信息参考 NSW National Parks、Northern Beaches Council、Destination NSW；Manly、The Corso 与渡轮历史参考 Dictionary of Sydney；餐厅时间参考 4 Pines 与 Hugos 官方网站。网页内的路线时间为舒适慢走估算，并非公共交通运营方保证时间。</p>
+</section>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const pts = [
+["The Spit Bridge",-33.8058,151.2452,"09:50集合｜步道起点"],
+["Clontarf Reserve",-33.8100,151.2518,"10:35｜第一段休息"],
+["Castle Rock Beach",-33.8092,151.2601,"11:15｜小海滩"],
+["Grotto Point Engravings",-33.8120,151.2667,"11:35｜Aboriginal rock engravings"],
+["Arabanoo Lookout",-33.8149,151.2708,"12:10｜高处观景"],
+["Reef Beach",-33.8132,151.2767,"12:45｜补给休息"],
+["Forty Baskets Beach",-33.8078,151.2815,"13:45｜厕所与休息"],
+["Fairlight",-33.8019,151.2796,"14:35｜城市海滨段"],
+["Manly Wharf",-33.8004,151.2849,"15:00｜徒步终点"],
+["4 Pines BrewPub",-33.7997,151.2850,"15:10｜啤酒"],
+["Hugos Manly",-33.8002,151.2844,"16:15｜Option 1"]
+];
+const map=L.map('map').setView([-33.807,151.267],14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+const line=[];
+pts.forEach((p,i)=>{L.marker([p[1],p[2]]).addTo(map).bindPopup(`<b>${i+1}. ${p[0]}</b><br>${p[3]}`);line.push([p[1],p[2]])});
+L.polyline(line,{color:'#0c7282',weight:4,opacity:.8,dashArray:'8 7'}).addTo(map);
+map.fitBounds(line,{padding:[20,20]});
+</script>
+</body>
+</html>
