@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Harbour Saturday in Sydney｜Taronga → Middle Head → Balmoral</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--ink:#18323b;--muted:#66787e;--sea:#0c7282;--pale:#edf6f5;--sand:#f4ead7;--card:#fff;--line:#d9e7e7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#f5f8f7;line-height:1.65}
+.hero{padding:54px 20px 36px;background:linear-gradient(135deg,#0b5363,#1590a0);color:#fff}.wrap{max-width:920px;margin:auto;padding:0 16px 50px}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;opacity:.85}h1{font-size:clamp(2.1rem,8vw,4.5rem);line-height:1.02;margin:.35rem 0}h2{margin-top:0;font-size:1.45rem}h3{margin-bottom:.35rem}.lead{font-size:1.08rem;max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}.stat{background:rgba(255,255,255,.13);padding:12px;border-radius:14px}.stat b{display:block;font-size:1.15rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 5px 18px rgba(20,60,68,.05)}.notice{background:var(--sand);border-color:#ead7b5}
+.btns{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}a.btn{display:inline-block;text-decoration:none;background:var(--sea);color:white;padding:10px 14px;border-radius:999px;font-weight:650}a.btn.secondary{background:#e7f1f0;color:#145d68}
+#map{height:470px;border-radius:15px;overflow:hidden}.segment{border-left:4px solid #55a9ad;padding:2px 0 8px 16px;margin:22px 0}.meta{color:var(--sea);font-weight:700;font-size:.92rem}.culture{background:#f5f0e6;padding:12px 14px;border-radius:12px;margin-top:10px}
+.timeline{display:grid;grid-template-columns:75px 1fr;gap:8px 15px}.time{font-weight:800;color:var(--sea)}.event{padding-bottom:12px;border-bottom:1px dashed #d8e2e2}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.option{border-top:5px solid var(--sea)}ul{padding-left:21px}small,.muted{color:var(--muted)}
+.topnav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:8px 12px;overflow-x:auto;white-space:nowrap}.topnav a{color:#155f6a;text-decoration:none;margin-right:15px;font-weight:650;font-size:.9rem}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}#map{height:420px}.hero{padding-top:40px}}
+</style>
+</head>
+<body>
+<nav class="topnav"><a href="#overview">Overview</a><a href="#route">Route Map</a><a href="#segments">The Walk</a><a href="#food">Eat & Drink</a><a href="#tips">Good to Know</a></nav>
+<header class="hero"><div class="wrap"><div class="eyebrow">A Curated Sydney Harbour Walk</div><h1>Taronga<br>→ Middle Head<br>→ Balmoral</h1><p class="lead">2026年7月25日 · 星期六。乘渡轮抵达 Taronga Zoo Wharf，沿海港穿过桉树林、隐秘海湾、旧军事设施与高处观景台，最后在 Balmoral Beach 结束。这是一条把 Sydney Harbour 的自然、城市轮廓与海防历史串在一起的完整半日路线。</p><div class="stats"><div class="stat"><span>Start</span><b>11:00</b><small>Taronga Zoo Wharf</small></div><div class="stat"><span>Distance</span><b>≈11 km</b><small>One way</small></div><div class="stat"><span>Experience</span><b>5.5–6.5 h</b><small>含休息与拍照</small></div><div class="stat"><span>Finish</span><b>Balmoral</b><small>Beachside ending</small></div></div></div></header>
+<main class="wrap">
+<section class="card" id="overview"><h2>🌊 The Character of This Walk</h2><p>这条路线最特别的地方，是景观会不断变化。前半段是典型的 Sydney Harbour bushwalk：桉树林、砂岩、帆船与城市天际线交替出现；中段进入 Chowder Bay 与 Georges Heights，可以看到旧军事道路、观察设施和高处草坪；后半段则转向 Middle Head 的炮台群与更开阔的海港入口景观，最后从林地慢慢下到 Balmoral 的海滩与咖啡馆。</p><p class="muted">路线由多个官方步道连接而成。地图适合定位，进入林地后请以 NSW National Parks 与 Harbour Trust 的实体指示牌为准。</p></section>
+<section class="card" id="route"><h2>🗺 Route Map</h2><p>点击地图标记可以查看每一站。蓝色虚线展示大致路线走向，不代表逐米 GPS 轨迹。</p><div id="map"></div><div class="btns"><a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Taronga%20Zoo%20Wharf%2C%20Mosman%20NSW&destination=Balmoral%20Beach%2C%20Mosman%20NSW&travelmode=walking&waypoints=Bradleys%20Head%20Amphitheatre%7CChowder%20Bay%7CGeorges%20Head%20Lookout%7CMiddle%20Head%20Forts">Google Maps 打开完整路线 ↗</a><a class="btn secondary" href="#segments">Explore the Walk ↓</a></div></section>
+<section class="card"><h2>⏰ Suggested Flow</h2><div class="timeline"><div class="time">11:00</div><div class="event">Taronga Zoo Wharf 出发</div><div class="time">11:35</div><div class="event">Bradleys Head Amphitheatre</div><div class="time">12:45</div><div class="event">Chowder Bay / Clifton Gardens 午餐休息</div><div class="time">13:15</div><div class="event">经 Bungaree Walkway 上 Georges Heights</div><div class="time">14:10</div><div class="event">Georges Head Lookout</div><div class="time">14:20</div><div class="event">Middle Head – Gubbuh Gubbuh</div><div class="time">16:35</div><div class="event">Balmoral Beach 完成</div></div></section>
+<section class="card" id="segments"><h2>🥾 The Walk: Landscapes, Stories & Stops</h2>
+<div class="segment"><div class="meta">① Taronga Zoo Wharf → Athol Bay</div><h3>A Harbour Arrival</h3><p>从 Taronga Zoo Wharf 出发，沿 Athol Wharf Road 上坡几分钟后转入 Bradleys Head 海岸步道。不要一路走到动物园主入口。</p><div class="culture"><b>What to notice：</b>这段是整条路线最有“悉尼感”的开场。回头可以看到渡轮航线、城市天际线和海港大桥，而前方很快进入安静林地。短短几分钟内，城市与自然之间的转换非常明显。</div></div>
+<div class="segment"><div class="meta">② Athol Bay → Bradleys Head Amphitheatre</div><h3>Classic Harbour Views</h3><p>沿水边向 Bradleys Head 前进。抵达大草坪、石阶和 HMAS Sydney 桅杆后，建议停下来拍照。</p><div class="culture"><b>Why it is special：</b>Bradleys Head 是欣赏 Sydney Harbour 全景最经典的位置之一。这里可以同时看到 Harbour Bridge、Opera House、CBD 与来往船只。开阔草坪与海边石阶让景色比林中观景台更有延伸感，也很适合休息。</div></div>
+<div class="segment"><div class="meta">③ Bradleys Head → Taylors Bay → Chowder Bay</div><h3>Bushland and Hidden Bays</h3><p>继续跟随 Chowder Bay 指示，经过 Taylors Bay 一带。步道有台阶与短坡，但沿途林荫较多。</p><div class="culture"><b>Landscape：</b>这段最值得欣赏的是“被树林包住的海港”。桉树树干、砂岩岸线、深蓝色海水和偶尔出现的城市轮廓不断交替。Taylors Bay 像一处藏在城市边缘的小海湾，让人很容易忘记距离 CBD 其实并不远。</div></div>
+<div class="segment"><div class="meta">④ Chowder Bay / Clifton Gardens</div><h3>A Waterside Pause</h3><p>到达 Clifton Gardens 后，可在海边、旧军事建筑和咖啡馆区域休息。这里有厕所，也是前半段最适合补给的地方。</p><div class="culture"><b>What to enjoy：</b>Chowder Bay 的魅力在于海滨生活与历史建筑并存。浅水湾、木栈桥、潜水者与岸边咖啡馆，让这里比前面的林中路段更轻松。坐下来时可以看看水面上的小船，也可以观察旧军用建筑如何被重新利用为公共空间和餐饮场所。</div></div>
+<div class="segment"><div class="meta">⑤ Chowder Bay → Georges Heights</div><h3>The Climb to the Headland</h3><p>经过 Sergeants’ Mess 后，在停车区附近寻找 Bungaree Walkway / Georges Heights 标识，从楼梯上山。</p><div class="culture"><b>Story & view：</b>这段海拔上升明显，但也是路线由“海边”转向“高地”的关键。Georges Heights 过去是重要军事区域，今天则拥有草坪、艺术空间、旧建筑和大片海港视野。爬升之后回望 Chowder Bay，会更清楚看见海湾的层次。</div></div>
+<div class="segment"><div class="meta">⑥ Georges Head Lookout</div><h3>One of the Great Harbour Vantage Points</h3><p>经过 Gunners Barracks 一带前往 Georges Head Lookout 与观察塔。</p><div class="culture"><b>What to notice：</b>这里的视野比 Bradleys Head 更高，也更开阔。海港入口、South Head、North Head、城市轮廓和层叠岬角都可能进入同一视野。旧炮台与观察设施提醒人们，这片风景过去也是悉尼海防体系的重要组成部分。</div></div>
+<div class="segment"><div class="meta">⑦ Georges Head → Middle Head – Gubbuh Gubbuh</div><h3>Harbour Defence Landscape</h3><p>跟随 Middle Head – Gubbuh Gubbuh 官方步道，沿途经过 Belvedere lookout、旧炮台、casemates 与多处防御设施。</p><div class="culture"><b>History without the textbook feeling：</b>这里最有趣的不是单独某一座炮台，而是整片“军事景观”。炮位、地下空间、旧道路与开阔视野被设计成一个完整系统，用来观察和防守港口入口。现在走在这里，可以同时看到自然风景与十九世纪以来海防工程留下的痕迹。</div></div>
+<div class="segment"><div class="meta">⑧ Middle Head → Balmoral Beach</div><h3>A Soft Ending by the Water</h3><p>从 Middle Head 沿道路、公园和楼梯下行，最终抵达 Balmoral Beach。</p><div class="culture"><b>Arrival：</b>Balmoral 是一条非常温柔的终点线。与 Manly 的冲浪氛围不同，这里海水通常更平静，海滩、码头、泳区和沿岸建筑共同构成一种更安静的海滨度假感。经过11公里的树林、台阶和旧炮台后，坐在海边看光线慢慢变柔，是这条路线最好的收尾。</div></div>
+</section>
+<section class="grid2" id="food"><div class="card option"><h2>Lunch Stop｜Chowder Bay</h2><p><strong>适合在路线中段短暂停下来的海边补给点。</strong></p><p>Chowder Bay 一带有咖啡馆和临水餐饮，最大的吸引力不是“专门去吃一顿大餐”，而是把午餐放在海港景色里。可以选择咖啡、轻食或自带三明治，在水边坐20–30分钟，为后半段爬升补充体力。</p><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chowder%20Bay%20cafes%20Mosman%20NSW">查看 Chowder Bay 餐饮 ↗</a></div>
+<div class="card option"><h2>Beachside Finish｜Balmoral</h2><p><strong>最适合把徒步变成一个完整周末下午的终点。</strong></p><p>Balmoral Beach 的餐饮选择从轻松咖啡到正式临海用餐都有。The Boathouse Balmoral 更偏轻松的水边 café & bar 氛围；Bathers’ Pavilion 则更有经典海滨建筑与正式用餐感。即使不进餐厅，买杯咖啡坐在海边，也足够让这条路线拥有一个漂亮结尾。</p><div class="btns"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The%20Boathouse%20Balmoral%20Beach">The Boathouse ↗</a><a class="btn secondary" target="_blank" href="https://www.batherspavilion.com.au/">Bathers’ Pavilion ↗</a></div></div></section>
+<section class="card notice"><h2>What Makes This Route Memorable</h2><p>它不是只有一种景色。前半段是海港与森林，中段是海湾与旧建筑，后半段是军事遗址与高处视野，最后以 Balmoral 的平静海滩结束。整条路线像是把悉尼不同面貌剪成几个章节，再用一条步道连在一起。</p></section>
+<section class="card" id="tips"><h2>⚠️ Good to Know</h2><ul><li><b>水：</b>每人至少1–1.5 L；Georges Head 一带补给较少。</li><li><b>鞋：</b>建议抓地力好的运动鞋，路线包含大量台阶、树根与旧石路。</li><li><b>导航：</b>在 Chowder Bay 后寻找 Bungaree Walkway；林中优先看实体路牌。</li><li><b>时间：</b>如果抵达 Georges Head 已经很晚，可跳过部分 Middle Head 炮台线，直接前往 Balmoral。</li><li><b>现场情况：</b>军事遗址可能有临时施工或绕行，请遵守围栏与官方指示。</li></ul><div class="btns"><a class="btn secondary" target="_blank" href="https://www.nationalparks.nsw.gov.au/things-to-do/walking-tracks/bradleys-head-to-chowder-bay-walk">NPWS 路线信息 ↗</a><a class="btn secondary" target="_blank" href="https://www.harbourtrust.gov.au/our-places/middle-head/">Middle Head 官方信息 ↗</a></div></section>
+<section class="card"><h2>📚 About This Guide</h2><p class="muted">路线结构参考 NSW National Parks 的 Bradleys Head to Chowder Bay walk，以及 Sydney Harbour Federation Trust 的 Georges Heights 与 Middle Head 步道资料。网页用于回顾和分享这次徒步体验；距离与时间为舒适慢走估算，现场应以官方标识、开放信息和个人体力为准。</p></section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const pts=[
+["Taronga Zoo Wharf",-33.8465,151.2412,"11:00｜起点"],
+["Athol Bay",-33.8420,151.2440,"海港林地"],
+["Bradleys Head Amphitheatre",-33.8510,151.2465,"经典海港全景"],
+["Taylors Bay",-33.8366,151.2549,"隐秘海湾"],
+["Chowder Bay / Clifton Gardens",-33.8392,151.2540,"午餐与补给"],
+["Georges Heights",-33.8352,151.2582,"高地与旧军事建筑"],
+["Georges Head Lookout",-33.8331,151.2607,"开阔海港视野"],
+["Middle Head – Gubbuh Gubbuh",-33.8287,151.2662,"炮台与观察设施"],
+["Balmoral Beach",-33.8255,151.2508,"徒步终点"]];
+const map=L.map('map').setView([-33.838,151.254],14);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);const line=[];pts.forEach((p,i)=>{L.marker([p[1],p[2]]).addTo(map).bindPopup(`<b>${i+1}. ${p[0]}</b><br>${p[3]}`);line.push([p[1],p[2]])});L.polyline(line,{color:'#0c7282',weight:4,opacity:.8,dashArray:'8 7'}).addTo(map);map.fitBounds(line,{padding:[20,20]});
+</script>
+</body></html>
