@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="A personal collection of Sydney walks, harbour trails and weekend adventures.">
-  <title>Sydney Hiking Guide</title>
+  <meta name="description" content="Sydney walks: harbour trails, forest walks and weekend adventures.">
+  <title>Sydney walks</title>
   <style>
     :root{
       --ink:#17332d;
       --muted:#60736d;
       --paper:#f7f4ec;
-      --card:#fffdf8;
       --line:rgba(23,51,45,.13);
       --green:#2d6657;
       --shadow:0 18px 50px rgba(31,54,49,.12);
@@ -57,7 +56,7 @@
       margin:0;
       max-width:780px;
       font-family:Georgia,"Times New Roman",serif;
-      font-size:clamp(3rem,8vw,6.8rem);
+      font-size:clamp(3.4rem,9vw,7rem);
       line-height:.96;
       letter-spacing:-.055em;
       font-weight:500;
@@ -65,13 +64,17 @@
 
     .intro{
       margin:26px 0 0;
-      max-width:620px;
+      max-width:680px;
       color:var(--muted);
       font-size:clamp(1rem,2.4vw,1.2rem);
       line-height:1.75;
     }
 
     main{padding:10px 0 100px}
+
+    .collection{margin-bottom:64px}
+    .collection.harbour h2{color:#245f7d}
+    .collection.forest h2{color:#356b50}
 
     .section-heading{
       display:flex;
@@ -101,6 +104,10 @@
       gap:24px;
     }
 
+    .routes.single{
+      grid-template-columns:minmax(0,1fr);
+    }
+
     .route{
       position:relative;
       overflow:hidden;
@@ -110,6 +117,10 @@
       box-shadow:var(--shadow);
       transition:transform .25s ease,box-shadow .25s ease;
       isolation:isolate;
+    }
+
+    .routes.single .route{
+      min-height:410px;
     }
 
     .route:hover{
@@ -132,14 +143,20 @@
 
     .spit::before{
       background:
-        radial-gradient(circle at 74% 24%,rgba(255,239,176,.9),transparent 20%),
-        linear-gradient(145deg,#8dc8c6 0%,#4e9ba2 38%,#255c65 63%,#163b3a 100%);
+        radial-gradient(circle at 76% 20%,rgba(255,242,190,.86),transparent 18%),
+        linear-gradient(145deg,#91d4df 0%,#4fa7bd 34%,#286f91 64%,#17455f 100%);
     }
 
     .taronga::before{
       background:
-        radial-gradient(circle at 24% 22%,rgba(226,235,189,.68),transparent 24%),
-        linear-gradient(145deg,#91ad87 0%,#567b68 42%,#315862 70%,#183b45 100%);
+        radial-gradient(circle at 22% 20%,rgba(220,240,241,.72),transparent 22%),
+        linear-gradient(145deg,#8fc9d4 0%,#4d91aa 38%,#2d6883 68%,#173f58 100%);
+    }
+
+    .lane-cove::before{
+      background:
+        radial-gradient(circle at 72% 20%,rgba(226,239,187,.68),transparent 23%),
+        linear-gradient(145deg,#8db889 0%,#5f8f6b 34%,#386d57 65%,#1b473e 100%);
     }
 
     .landscape{
@@ -175,6 +192,32 @@
       transform:rotate(-5deg);
     }
 
+    .lane-cove .landscape::before{
+      width:92%;
+      height:82%;
+      left:-18%;
+      background:rgba(19,76,56,.58);
+    }
+
+    .lane-cove .landscape::after{
+      width:80%;
+      height:60%;
+      right:-18%;
+      background:rgba(25,62,58,.72);
+    }
+
+    .river-line{
+      position:absolute;
+      left:-8%;
+      right:-8%;
+      bottom:8%;
+      height:22%;
+      background:rgba(138,195,190,.42);
+      border-radius:50%;
+      transform:rotate(-3deg);
+      filter:blur(1px);
+    }
+
     .route-content{
       min-height:440px;
       padding:30px;
@@ -182,6 +225,10 @@
       flex-direction:column;
       justify-content:space-between;
       color:white;
+    }
+
+    .routes.single .route-content{
+      min-height:410px;
     }
 
     .route-top{
@@ -224,7 +271,7 @@
 
     .route-title{
       margin:0 0 15px;
-      max-width:530px;
+      max-width:650px;
       font-family:Georgia,"Times New Roman",serif;
       font-size:clamp(2.2rem,5vw,4.2rem);
       line-height:1;
@@ -234,9 +281,9 @@
 
     .route-description{
       margin:0 0 20px;
-      max-width:480px;
-      color:rgba(255,255,255,.82);
-      line-height:1.55;
+      max-width:600px;
+      color:rgba(255,255,255,.84);
+      line-height:1.6;
       font-size:.98rem;
     }
 
@@ -275,87 +322,131 @@
         min-height:auto;
         padding:58px 0 44px;
       }
-      .routes{grid-template-columns:1fr}
-      .route,.route-content{min-height:390px}
+      .routes,
+      .routes.single{grid-template-columns:1fr}
+      .route,.route-content,
+      .routes.single .route,
+      .routes.single .route-content{min-height:390px}
       .route-content{padding:24px}
       .section-heading{
         align-items:flex-start;
         flex-direction:column;
         gap:7px;
       }
+      .collection{margin-bottom:52px}
     }
   </style>
 </head>
 <body>
   <header>
     <div class="shell">
-      <div class="eyebrow">A personal collection of Sydney walks</div>
-      <h1>Sydney<br>Hiking Guide</h1>
+      <div class="eyebrow">A curated collection of Sydney walks</div>
+      <h1>Sydney walks</h1>
       <p class="intro">
-        从海港步道到隐藏海滩，慢慢收集在悉尼走过的路线。
-        每一条路线都包括沿途景观、值得停留的地点、交通信息与餐饮推荐。
+        从经典海港步道到安静的森林河谷，慢慢收集在悉尼走过的路线。
+        每一条路线都整理了交通、互动地图、沿途景观、自然科普和实用提醒，
+        可以直接保存、分享，也可以照着出发。
       </p>
     </div>
   </header>
 
   <main class="shell">
-    <div class="section-heading">
-      <h2>Harbour Walks</h2>
-      <div class="count">2 routes · more to come</div>
-    </div>
 
-    <section class="routes" aria-label="Sydney walking routes">
+    <section class="collection harbour">
+      <div class="section-heading">
+        <h2>Harbour Walks</h2>
+        <div class="count">2 routes</div>
+      </div>
 
-      <a class="route spit" href="Spit-to-Manly.html" aria-label="Open Spit Bridge to Manly guide">
-        <div class="landscape"></div>
-        <article class="route-content">
-          <div class="route-top">
-            <span class="badge">Classic Harbour Walk</span>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </div>
+      <div class="routes" aria-label="Sydney harbour walking routes">
 
-          <div>
-            <h3 class="route-title">Spit Bridge<br>→ Manly</h3>
-            <p class="route-description">
-              桉树林、砂岩海岸、隐秘海滩与开阔港湾景观交织的悉尼经典路线。
-            </p>
-            <div class="facts">
-              <span class="fact">10 km</span>
-              <span class="fact">3.5–4.5 h</span>
-              <span class="fact">Easy–Moderate</span>
+        <a class="route spit" href="Spit-to-Manly.html" aria-label="Open Spit Bridge to Manly guide">
+          <div class="landscape"></div>
+          <article class="route-content">
+            <div class="route-top">
+              <span class="badge">Classic Harbour Walk</span>
+              <span class="arrow" aria-hidden="true">↗</span>
             </div>
-          </div>
-        </article>
-      </a>
 
-      <a class="route taronga" href="Taronga-to-Balmoral.html" aria-label="Open Taronga Zoo Wharf to Balmoral guide">
-        <div class="landscape"></div>
-        <article class="route-content">
-          <div class="route-top">
-            <span class="badge">Harbour & Heritage</span>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </div>
-
-          <div>
-            <h3 class="route-title">Taronga Zoo Wharf<br>→ Balmoral</h3>
-            <p class="route-description">
-              从城市天际线走向安静海湾，沿途经过观景台、军事遗址与海滨村落。
-            </p>
-            <div class="facts">
-              <span class="fact">约 10 km</span>
-              <span class="fact">4–5 h</span>
-              <span class="fact">Moderate</span>
+            <div>
+              <h3 class="route-title">Spit Bridge<br>→ Manly</h3>
+              <p class="route-description">
+                桉树林、砂岩海岸、隐秘海滩与开阔港湾景观交织的悉尼经典路线。
+              </p>
+              <div class="facts">
+                <span class="fact">10 km</span>
+                <span class="fact">3.5–4.5 h</span>
+                <span class="fact">Easy–Moderate</span>
+              </div>
             </div>
-          </div>
-        </article>
-      </a>
+          </article>
+        </a>
 
+        <a class="route taronga" href="Taronga-to-Balmoral.html" aria-label="Open Taronga Zoo Wharf to Balmoral guide">
+          <div class="landscape"></div>
+          <article class="route-content">
+            <div class="route-top">
+              <span class="badge">Harbour & Heritage</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </div>
+
+            <div>
+              <h3 class="route-title">Taronga Zoo Wharf<br>→ Balmoral</h3>
+              <p class="route-description">
+                从城市天际线走向安静海湾，沿途经过观景台、军事遗址与海滨村落。
+              </p>
+              <div class="facts">
+                <span class="fact">约 10 km</span>
+                <span class="fact">4–5 h</span>
+                <span class="fact">Moderate</span>
+              </div>
+            </div>
+          </article>
+        </a>
+
+      </div>
     </section>
+
+    <section class="collection forest">
+      <div class="section-heading">
+        <h2>Forest & River Walks</h2>
+        <div class="count">1 route</div>
+      </div>
+
+      <div class="routes single" aria-label="Sydney forest and river walking routes">
+
+        <a class="route lane-cove" href="Lane_Cove_National_Park_Bushwalk.html" aria-label="Open Lane Cove National Park guide">
+          <div class="landscape"></div>
+          <div class="river-line"></div>
+          <article class="route-content">
+            <div class="route-top">
+              <span class="badge">Riverside Circuit</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </div>
+
+            <div>
+              <h3 class="route-title">Lane Cove<br>National Park</h3>
+              <p class="route-description">
+                沿 Lane Cove River 南北两岸完成环线，穿过木栈道、野餐区、
+                河岸森林与 Great North Walk，是一条以“环河体验”为核心的城市边缘 Bushwalk。
+              </p>
+              <div class="facts">
+                <span class="fact">约 10 km</span>
+                <span class="fact">4–4.5 h</span>
+                <span class="fact">Moderate</span>
+              </div>
+            </div>
+          </article>
+        </a>
+
+      </div>
+    </section>
+
   </main>
 
   <footer>
     <div class="shell footer-row">
-      <span>Sydney Hiking Guide</span>
+      <span>Sydney walks</span>
       <span>Walk slowly · stop often · enjoy the view</span>
     </div>
   </footer>
